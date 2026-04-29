@@ -72,7 +72,6 @@ function renderHome() {
 
     contenedor.innerHTML = cats.map(cat => {
         const items    = grupos[cat];
-        const hayMas   = items.length > 4;
         const tarjetas = items.slice(0, 8).map(item => renderTarjetaCompacta(item)).join('');
 
         return `
@@ -81,7 +80,7 @@ function renderHome() {
                 <h2 class="cat-section-title">${cat}</h2>
                 <div class="cat-section-right">
                     <span class="cat-section-count">${items.length} producto${items.length !== 1 ? 's' : ''}</span>
-                    ${hayMas ? `<button class="btn-ver-mas" onclick="verCategoria('${cat}')">Ver todos →</button>` : ''}
+                    <button class="btn-ver-mas" onclick="verCategoria('${cat}')">Ver todos →</button>
                 </div>
             </div>
             <div class="scroll-row" id="scroll-${cat.replace(/\s/g,'_')}">
@@ -95,24 +94,39 @@ function renderHome() {
 function renderTarjetaCompacta(item) {
     const ok     = item.stock > 0;
     const imgUrl = cloudinaryUrl(item.imageUrl, 300, 300) || item.imageUrl;
+    const msjWa  = encodeURIComponent(`Hola, quiero comprar "${item.name}"${item.size ? ' (Talla: ' + item.size + ')' : ''}. ¿Está disponible?`);
     return `
     <div class="product-card-compact ${ok ? '' : 'agotado'}" onclick="openProductDetail('${item.id}')">
         <div class="compact-img-wrap">
             ${!ok ? '<div class="badge-agotado-compact">AGOTADO</div>' : ''}
-            <img src="${imgUrl}" alt="${item.name}" class="img-loading"
+            <img src="${imgUrl || item.imageUrl}" alt="${item.name}" class="img-loading"
                  onload="this.classList.remove('img-loading')"
-                 onerror="this.src='https://via.placeholder.com/200x200?text=?';this.classList.remove('img-loading')">
+                 onerror="this.src='https://via.placeholder.com/200x200?text=Sin+imagen';this.classList.remove('img-loading')">
         </div>
         <div class="compact-info">
             <div class="compact-name">${item.name}</div>
             ${item.size  ? `<div class="compact-meta">Talla: ${item.size}</div>`  : ''}
             ${item.color ? `<div class="compact-meta">Color: ${item.color}</div>` : ''}
             <div class="compact-price">$${item.price}</div>
-            <button class="compact-cart-btn ${ok ? '' : 'disabled'}"
-                    onclick="event.stopPropagation(); ${ok ? `carritoAgregar('${item.id}')` : ''}"
-                    ${ok ? '' : 'disabled'}>
-                ${ok ? '+ Agregar' : 'Agotado'}
-            </button>
+            <div class="compact-btns" onclick="event.stopPropagation()">
+                <button class="compact-cart-btn ${ok ? '' : 'disabled'}"
+                        onclick="${ok ? `carritoAgregar('${item.id}')` : ''}"
+                        ${ok ? '' : 'disabled'}>
+                    ${ok ? '🛒 Agregar' : 'Agotado'}
+                </button>
+                <a href="https://wa.me/${miNumeroWhatsApp}?text=${msjWa}" target="_blank"
+                   style="text-decoration:none;display:block;">
+                    <button class="compact-buy-btn" ${ok ? '' : 'disabled'}>
+                        ${ok ? '💬 Comprar' : ''}
+                    </button>
+                </a>
+            </div>
+            <div class="compact-admin admin-only" onclick="event.stopPropagation()">
+                <button class="ca-btn ca-sold" onclick="reduceStock('${item.id}',${item.stock})" ${ok ? '' : 'disabled'}>-1</button>
+                <button class="ca-btn ca-edit" onclick="openEditModal('${item.id}')">✏️</button>
+                <button class="ca-btn ca-del"  onclick="confirmDeleteProduct('${item.id}','${item.name.replace(/'/g,"\''")}')">🗑️</button>
+                <button class="ca-btn ca-share" onclick="compartirProducto('${item.id}','${item.name.replace(/'/g,"\''")}')">🔗</button>
+            </div>
         </div>
     </div>`;
 }

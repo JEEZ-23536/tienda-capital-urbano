@@ -200,9 +200,21 @@ textarea { resize:vertical; min-height:70px; }
 .compact-name  { font-size:0.82rem; font-weight:600; color:var(--cu-dark); text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:2px; }
 .compact-meta  { font-size:0.72rem; color:#888; margin-bottom:2px; }
 .compact-price { font-size:1rem; font-weight:700; color:var(--cu-brown); margin:4px 0 8px; }
-.compact-cart-btn { width:100%; padding:7px; background:var(--cart-color); color:white; border:none; border-radius:5px; cursor:pointer; font-size:0.78rem; font-weight:600; font-family:'Poppins',sans-serif; transition:0.2s; }
+.compact-btns { display:flex; flex-direction:column; gap:5px; margin-top:6px; }
+.compact-cart-btn { width:100%; padding:6px; background:var(--cart-color); color:white; border:none; border-radius:5px; cursor:pointer; font-size:0.76rem; font-weight:600; font-family:'Poppins',sans-serif; transition:0.2s; }
 .compact-cart-btn:hover { opacity:0.88; }
 .compact-cart-btn.disabled { background:#ccc; cursor:not-allowed; }
+.compact-buy-btn { width:100%; padding:6px; background:var(--wa-green); color:white; border:none; border-radius:5px; cursor:pointer; font-size:0.76rem; font-weight:600; font-family:'Poppins',sans-serif; transition:0.2s; }
+.compact-buy-btn:hover { opacity:0.88; }
+.compact-buy-btn:disabled { background:#ccc; cursor:not-allowed; }
+.compact-admin { display:flex; gap:3px; margin-top:6px; padding-top:6px; border-top:0.5px solid var(--color-border-tertiary,#e5e5e5); }
+.ca-btn { flex:1; padding:5px 2px; border:none; border-radius:4px; cursor:pointer; font-size:0.72rem; font-weight:600; font-family:'Poppins',sans-serif; transition:0.2s; }
+.ca-btn:hover { opacity:0.85; }
+.ca-btn:disabled { opacity:0.4; cursor:not-allowed; }
+.ca-sold  { background:#e3f2fd; color:#0277bd; }
+.ca-edit  { background:#fff3e0; color:#e65100; }
+.ca-del   { background:#fce8e8; color:#c62828; }
+.ca-share { background:#e8f5e9; color:#2e7d32; }
 
 /* ── VISTA DE CATEGORÍA COMPLETA ── */
 .catalog-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; flex-wrap:wrap; gap:8px; }
